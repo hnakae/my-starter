@@ -1,8 +1,22 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import React, { useState } from "react";
+import { useGetSynonyms } from "../hooks/useGetSynonyms";
 
 export default function Home() {
+  const [word, setWord] = useState("");
+  const { isLoading, synonyms, getSynonyms } = useGetSynonyms();
+
+  const handleFetchSynonyms = (e: React.FormEvent) => {
+    e.preventDefault();
+    getSynonyms(word);
+  };
+
+  const handleSynonymClicked = (newWord: string) => {
+    setWord(newWord);
+    getSynonyms(word);
+  };
   return (
     <div className={styles.container}>
       <Head>
@@ -16,8 +30,35 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
+        <h1> View: {word}</h1>
+        <form onSubmit={handleFetchSynonyms}>
+          <label htmlFor="stats">Your Word</label>
+          <input
+            value={word}
+            onChange={(e) => setWord(e.target.value)}
+            id="word-input"
+          />
+          <button type="submit">Submit</button>
+        </form>
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <ul>
+            {synonyms.map((synonym) => (
+              <>
+                <li
+                  onClick={() => handleSynonymClicked(synonym.word)}
+                  key={synonym.word}
+                >
+                  {synonym.word}
+                </li>
+              </>
+            ))}
+          </ul>
+        )}
+
         <p className={styles.description}>
-          Get started by editing{' '}
+          Get started by editing{" "}
           <code className={styles.code}>pages/index.tsx</code>
         </p>
 
@@ -60,12 +101,12 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
     </div>
-  )
+  );
 }

@@ -1,13 +1,13 @@
 nextjs
-
 typescript
-
 prisma
-
 nextauth
+planetscale
 
+TODO:
 (tailwind)
-
 (tRPC)
-
-(planetscale)
+(agGrid)
+(zod)
+(cheerio axios fs)
+(s3 buckets)
