@@ -1,8 +1,18 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import React, { useState } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import { useGetSynonyms } from "../hooks/useGetSynonyms";
+
+// import { AgGridReact } from "ag-grid-react";
+// import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
+// import "ag-grid-community/styles/ag-theme-alpine.css";
 
 export default function Home() {
   const [word, setWord] = useState("");
@@ -17,6 +27,7 @@ export default function Home() {
     setWord(newWord);
     getSynonyms(word);
   };
+
   return (
     <div className={styles.container}>
       <Head>
